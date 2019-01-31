@@ -12,6 +12,7 @@ header {
 button {
   appearance: none;
   border: 1px solid #2323ff;
+  display: inline-block;
   cursor: pointer;
   font-size: 1rem;
   padding: 1rem 2rem;
@@ -29,7 +30,7 @@ button {
   width: max-content;
 }
 
-.gallery ul li {
+.gallery ul li.gallery-slide {
   display: inline-block;
   height: auto;
   padding: 2rem 0;
@@ -38,7 +39,7 @@ button {
   width: 100vw;
 }
 
-.gallery ul li img {
+.gallery ul li.gallery-slide img {
   display: block;
   margin: 0 auto;
 }
@@ -46,4 +47,11 @@ button {
 .actions {
   margin: 2rem auto;
   width: fit-content;
+}
+
+nav.pagination li {
+  border: 1px solid rgba(50,50,50,.5);
+  cursor: pointer;
+  display: inline-block;
+  padding: .5rem;
 }
