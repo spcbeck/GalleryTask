@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-size: 16px;
+}
+
+header {
+  padding: 2rem;
+  margin: 1rem;
+  border-bottom: 1px solid #444444;
+}
+
+button {
+  appearance: none;
+  border: 1px solid #2323ff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+}
+
+.gallery {
+  overflow-x: hidden;
+  width: 100vw;
+}
+
+.gallery ul {
+  list-style: none;
+  padding: 0;
+  position: relative;
+  width: max-content;
+}
+
+.gallery ul li {
+  display: inline-block;
+  height: auto;
+  padding: 2rem 0;
+  position: fixed;
+  transition: transform .3s ease-in-out;
+  width: 100vw;
+}
+
+.gallery ul li img {
+  display: block;
+  margin: 0 auto;
+}
+
+.actions {
+  margin: 2rem auto;
+  width: fit-content;
+}
