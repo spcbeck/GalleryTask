@@ -1,9 +1,14 @@
 class Gallery {
   constructor(selector = '#gallery', settings = {}) {
-    this.slides = document.querySelectorAll(`${selector} li.gallery-slide`);
-    this.paginationButtons = document.querySelectorAll('li.pagination-control');
     this.selector = selector;
     this.settings = settings;
+    this.external = settings.external || false;
+    if(!this.external)
+      this.slides = document.querySelectorAll(`${selector} li.gallery-slide`);
+    else
+      this.slides = document.querySelectorAll(`${selector} li.gallery-slide`);
+
+    this.paginationButtons = document.querySelectorAll('button.pagination-control');
 
     this.slideArray = [].slice.call(this.slides);
     this.currentSlide = 1;
@@ -13,6 +18,7 @@ class Gallery {
   init() {
     this.previousSlide();
     this.createControls();
+    this.initGestures();
   }
 
   nextSlide() {
@@ -47,9 +53,54 @@ class Gallery {
     let i = -1;
 
     for(let slide of this.slideArray) {
+      slide.classList.remove("active");
       slide.style.transform = "translate(" + (i * this.slideWidth) + "px, 0)";
       i++;
     }
+
+    this.slideArray[1].classList.add("active");
+    document.querySelector('ul.gallery-slides').style.height = this.slideArray[1].firstChild.offsetHeight + "px";
+  }
+
+  initGestures() {
+    let touchstartX = 0;
+    let touchstartY = 0;
+    let touchendX = 0;
+    let touchendY = 0;
+
+    const swipeArea = document.querySelector(this.selector);
+
+    ['touchstart', 'mousedown'].forEach( (event) => {
+      swipeArea.addEventListener(event, (event) => {
+        if(event.type != 'mousedown') {
+          touchstartX = event.changedTouches[0].screenX;
+          touchstartY = event.changedTouches[0].screenY;
+        } else {
+          touchstartX = event.screenX;
+          touchstartY = event.screenY;
+        }
+      })
+    });
+
+    ['touchend', 'mouseup'].forEach( (event) => {
+      swipeArea.addEventListener(event, (event) => {
+        if(event.type != 'mouseup') {
+          touchendX = event.changedTouches[0].screenX;
+          touchendY = event.changedTouches[0].screenY;
+        } else {
+          touchendX = event.screenX;
+          touchendY = event.screenY;
+        }
+
+        if (touchendX < touchstartX) {
+            this.nextSlide();
+        }
+
+        if (touchendX > touchstartX) {
+            this.previousSlide();
+        }
+      })
+    });
   }
 
   createControls() {
@@ -69,6 +120,7 @@ class Gallery {
     }
   }
 }
-
-const gallery = new Gallery('#gallery');
-gallery.init();
+window.addEventListener('load', function() {
+  const gallery = new Gallery('#gallery');
+  gallery.init();
+});
