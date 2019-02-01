@@ -2,11 +2,8 @@ class Gallery {
   constructor(selector = '#gallery', settings = {}) {
     this.selector = selector;
     this.settings = settings;
-    this.external = settings.external || false;
-    if(!this.external)
-      this.slides = document.querySelectorAll(`${selector} li.gallery-slide`);
-    else
-      this.slides = document.querySelectorAll(`${selector} li.gallery-slide`);
+
+    this.slides = document.querySelectorAll(`${selector} li.gallery-slide`);
 
     this.paginationButtons = document.querySelectorAll('button.pagination-control');
 
@@ -15,12 +12,18 @@ class Gallery {
     this.slideWidth = document.querySelector(`${selector} li.gallery-slide`).offsetWidth;
   }
 
+  /*
+  * Initialize the gallery, add event listeners to the controls.
+  */
   init() {
     this.previousSlide();
     this.createControls();
     this.initGestures();
   }
 
+  /*
+  * Move the gallery 1 item forward, update the current slide index, and re-render the gallery.
+  */
   nextSlide() {
     this.slideArray.push(this.slideArray.shift());
     this.currentSlide++;
@@ -28,6 +31,9 @@ class Gallery {
     return this.currentSlide;
   }
 
+  /*
+  * Move the gallery 1 item backward, update the current slide index, and re-render the gallery.
+  */
   previousSlide() {
     this.slideArray.unshift(this.slideArray.pop());
     this.currentSlide--;
@@ -35,6 +41,9 @@ class Gallery {
     return this.currentSlide;
   }
 
+  /*
+  * Go to a specific index in the gallery. Accepts a 0-based index parameter.
+  */
   goToSlide(slideIndex) {
     let delta = this.currentSlide - slideIndex;
 
@@ -49,6 +58,9 @@ class Gallery {
     return this.currentSlide;
   }
 
+  /*
+  * Re-render the array of slides in the gallery, and add the active class to the displayed slide.
+  */
   updatePosition() {
     let i = -1;
 
@@ -62,6 +74,9 @@ class Gallery {
     document.querySelector('ul.gallery-slides').style.height = this.slideArray[1].firstChild.offsetHeight + "px";
   }
 
+  /*
+  * Handle swiping events for mobile and mouse.
+  */
   initGestures() {
     let touchstartX = 0;
     let touchstartY = 0;
@@ -103,6 +118,9 @@ class Gallery {
     });
   }
 
+  /*
+  * Add event listeners to the pagination and previous and next buttons to allow them to function properly.
+  */
   createControls() {
     document.getElementById('next').addEventListener('click', () => {
         this.nextSlide();

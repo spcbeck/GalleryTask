@@ -31,6 +31,9 @@ The gestures could use a lot of improvement in how they feel, as my implementati
 Further improvements I made a note of while working:
 * Optionally load the JSON file either via a file loader or external HTTP request and build the gallery elements using `document.createElement()` from the object.
 * Pagination should be built in javascript and rendered using same method described above based on the amount of slides.
+* Add SCSS support.
+* Convert into a React or Vue component.
+* I don't like how the gallery must shift the slides by 1 to work properly when initializing. I would probably refactor this code so this is unnecessary.
 
 ---
 
